@@ -33,8 +33,15 @@ const start = async () => {
       console.log('✅  Database synced.');
     }
 
-    app.listen(PORT, () => {
+    // On Railway, we MUST bind to 0.0.0.0. Locally, we use localhost.
+    const isProduction = process.env.NODE_ENV === 'production' || process.env.PORT;
+    const host = isProduction ? '0.0.0.0' : 'localhost';
+
+    app.listen(PORT, host, () => {
       console.log(`🚀  Server running on http://localhost:${PORT}`);
+      if (isProduction) {
+        console.log(`🌐  Publicly accessible on Railway at port ${PORT}`);
+      }
     });
   } catch (err) {
     console.error('❌  Failed to start server:', err);

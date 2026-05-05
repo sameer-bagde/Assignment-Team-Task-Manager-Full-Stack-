@@ -8,7 +8,7 @@
     "build": "npm install && vite build && cd server && npm install",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "start": "node server/src/server.js"
+    "start": "cd server && npm start"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.18",
