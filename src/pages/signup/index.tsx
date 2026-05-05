@@ -1,6 +1,5 @@
 import React from "react";
 import SignupForm from "./SignupForm";
-import Logo from "../../assets/images/logo.png";
 
 const Signup: React.FC = () => (
   <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-[#0B1120] transition-colors relative overflow-hidden p-4">
@@ -10,7 +9,7 @@ const Signup: React.FC = () => (
     
     <div className="w-full max-w-[420px] relative z-10 my-8">
       <div className="text-center mb-8 animate-fade-in-up">
-        <img src={Logo} alt="Logo" className="h-12 w-auto mx-auto mb-6 drop-shadow-sm" />
+        <h2 className="font-serif font-bold text-3xl text-indigo-600 dark:text-indigo-400 mb-6 drop-shadow-sm">Smarter Tasker</h2>
         <h1 className="text-3xl font-bold text-slate-900 dark:text-white tracking-tight">Create an account</h1>
         <p className="text-slate-500 dark:text-slate-400 mt-2">Join your team and start collaborating</p>
       </div>

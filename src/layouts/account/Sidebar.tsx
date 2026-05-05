@@ -1,6 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
 import { ChartBarIcon, FolderIcon, UsersIcon } from "@heroicons/react/24/outline";
-import Logo from "../../assets/images/logo.png";
 
 const classNames = (...classes: string[]) => classes.filter(Boolean).join(" ");
 
@@ -17,8 +16,7 @@ export default function Sidebar() {
     <div className="hidden md:flex md:w-64 md:flex-col border-r border-slate-200/60 dark:border-slate-800/60 bg-white dark:bg-slate-900 transition-colors">
       <div className="flex h-16 shrink-0 items-center px-6 border-b border-transparent">
         <Link to="/account/dashboard" className="flex items-center gap-3">
-          <img className="h-8 w-auto" src={Logo} alt="Team Task Manager" />
-          <span className="font-semibold text-slate-800 dark:text-slate-100 tracking-tight">TaskFlow</span>
+          <span className="font-serif font-bold text-xl text-slate-800 dark:text-slate-100">Smarter Tasker</span>
         </Link>
       </div>
       <div className="flex flex-1 flex-col overflow-y-auto pt-5 pb-4 px-4 space-y-1">

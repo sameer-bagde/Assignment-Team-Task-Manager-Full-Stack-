@@ -4,13 +4,11 @@ const bcrypt = require('bcryptjs');
 // GET /api/users — list all users (for member picker dropdown)
 exports.listUsers = async (req, res) => {
   try {
-    // MEMBERs cannot see other users
+    let filter = {};
+    // MEMBERs can only see ADMINs
     if (req.user.role !== 'ADMIN') {
-      return res.json([]);
+      filter = { role: 'ADMIN' };
     }
-
-    // ADMINs can see all global MEMBERs
-    const filter = { role: 'MEMBER' };
 
     const users = await User.findAll({
       attributes: ['id', 'name', 'email', 'role', 'creatorId'],

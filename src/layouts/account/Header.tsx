@@ -93,11 +93,11 @@ export default function Header() {
               <div className="p-1">
                 <Menu.Item>
                   {({ active }) => (
-                    <button
+                      <button
                       onClick={handleLogout}
                       className={classNames(
                         active ? "bg-slate-50 dark:bg-slate-700/50" : "",
-                        "flex w-full items-center gap-2 rounded-xl px-3 py-2 text-sm text-rose-600 dark:text-rose-400 font-medium transition-colors"
+                        "flex w-full items-center justify-center gap-2 rounded-xl px-3 py-2 text-sm text-rose-600 dark:text-rose-400 font-medium transition-colors"
                       )}
                     >
                       <ArrowRightOnRectangleIcon className="h-4 w-4" />
