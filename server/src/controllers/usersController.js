@@ -1,12 +1,21 @@
 const { User } = require('../models');
-const bcrypt = require('bcryptjs');
+const { Op } = require('sequelize');
 
-// GET /api/users — list all users (for member picker dropdown)
+// GET /api/users — list all users
 exports.listUsers = async (req, res) => {
   try {
     let filter = {};
-    // MEMBERs can only see ADMINs
-    if (req.user.role !== 'ADMIN') {
+    if (req.user.role === 'ADMIN') {
+      // Admins see themselves, members they created, and global signup members
+      filter = {
+        [Op.or]: [
+          { id: req.user.id },
+          { creatorId: req.user.id },
+          { [Op.and]: [{ creatorId: null }, { role: 'MEMBER' }] }
+        ]
+      };
+    } else {
+      // MEMBERs can only see ADMINs
       filter = { role: 'ADMIN' };
     }
 
@@ -28,6 +37,15 @@ exports.removeUser = async (req, res) => {
     const user = await User.findByPk(req.params.id);
     if (!user) return res.status(404).json({ error: 'User not found.' });
     if (user.id === req.user.id) return res.status(400).json({ error: 'Cannot delete yourself.' });
+
+    // Check permissions
+    const isAllowed = 
+      user.creatorId === req.user.id || 
+      (user.creatorId === null && user.role === 'MEMBER');
+
+    if (!isAllowed) {
+      return res.status(403).json({ error: 'Permission denied. You can only remove members you created or global members.' });
+    }
 
     await user.destroy();
     return res.json({ message: 'User removed successfully.' });
