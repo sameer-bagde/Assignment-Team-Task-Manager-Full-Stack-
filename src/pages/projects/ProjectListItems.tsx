@@ -58,10 +58,10 @@ export default function ProjectListItems() {
         <div key={project.id} className="relative group">
           <Link
             to={`${project.id}`}
-            className="flex items-center justify-between p-5 bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-xl shadow-sm hover:shadow-md hover:border-indigo-200 dark:hover:border-indigo-700 transition-all duration-200"
+            className="flex items-center justify-between p-5 bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700/60 rounded-2xl shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 group-hover:border-indigo-100 dark:group-hover:border-indigo-900/50"
           >
             <div>
-              <h5 className="text-base font-semibold text-slate-800 dark:text-slate-100">
+              <h5 className="text-base font-semibold text-slate-800 dark:text-slate-100 flex items-center gap-2">
                 {project.name}
               </h5>
               {project.description && (

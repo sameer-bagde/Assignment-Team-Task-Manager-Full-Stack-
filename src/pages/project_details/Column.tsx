@@ -8,15 +8,15 @@ import { ColumnData, TaskDetails } from "../../context/task/types";
 const Container = (props: React.PropsWithChildren) => {
   // We will use flex to display lists as columns
   return (
-    <div className="m-2 border border-gray dark:border-slate-700 rounded w-1/3 flex flex-col bg-slate-50 dark:bg-slate-900/50 transition-colors">
+    <div className="mx-2 my-4 w-1/3 flex flex-col bg-slate-100/50 dark:bg-slate-900/50 rounded-[2rem] border border-slate-200/50 dark:border-slate-800/80 transition-colors shadow-sm overflow-hidden">
       {props.children}
     </div>
   );
 };
 
-// A component to render the title, which will be included as <Title>This is a sample title</Title>
+// A component to render the title
 const Title = (props: React.PropsWithChildren) => {
-  return <h3 className="p-2 font-semibold text-slate-800 dark:text-white">{props.children}</h3>;
+  return <h3 className="px-5 py-4 font-semibold text-sm tracking-wide uppercase text-slate-500 dark:text-slate-400 border-b border-slate-200/50 dark:border-slate-800/50">{props.children}</h3>;
 };
 
 const TaskList = forwardRef<HTMLDivElement | null, React.PropsWithChildren>(

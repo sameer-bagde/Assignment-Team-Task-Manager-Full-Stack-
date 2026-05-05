@@ -54,9 +54,9 @@ export default function MemberListItems() {
       {members.map((member: any) => (
         <div
           key={member.id}
-          className="member flex items-center justify-between p-4 bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-xl shadow-sm hover:shadow-md transition-all"
+          className="flex items-center justify-between p-5 bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700/60 rounded-2xl shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300"
         >
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
             {/* Avatar */}
             <div className="h-10 w-10 rounded-full bg-gradient-to-br from-indigo-400 to-violet-500 flex items-center justify-center text-white font-semibold text-sm">
               {member.name?.charAt(0).toUpperCase() ?? "?"}

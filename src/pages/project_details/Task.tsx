@@ -18,45 +18,41 @@ const Task = forwardRef<
   const { isAdmin } = useAuth();
   const { task } = props;
   return (
-    <div ref={ref} {...props} className="m-2 flex">
+    <div ref={ref} {...props} className="mx-2 mb-3">
       <Link
-        className="TaskItem w-full shadow-md border border-slate-100 dark:border-slate-700 bg-white dark:bg-slate-800 transition-colors"
+        className="block w-full p-4 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200/60 dark:border-slate-700/60 shadow-sm hover:shadow-md hover:-translate-y-0.5 hover:border-indigo-200 dark:hover:border-indigo-700/60 transition-all duration-200 group relative"
         to={`tasks/${task.id}`}
       >
-        <div className="sm:ml-4 sm:flex sm:w-full sm:justify-between">
-          <div>
-            <h2 className="text-base font-bold my-1 text-slate-800 dark:text-white">{task.title}</h2>
-            <p className="text-sm text-slate-500 dark:text-slate-400">
-              {new Date(task.dueDate).toDateString()}
+        <div className="flex flex-col gap-2">
+          <div className="flex-1 pr-8">
+            <h2 className="text-base font-semibold text-slate-800 dark:text-slate-100 mb-1">{task.title}</h2>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mb-3 line-clamp-2">
+              {task.description}
             </p>
-            <p className="text-sm text-slate-500 dark:text-slate-400">
-              Description: {task.description}
-            </p>
-            <p className="text-sm text-slate-500 dark:text-slate-400">
-              Assignees: {task.assignees && task.assignees.length > 0 ? task.assignees.map(a => a.name).join(', ') : "-"}
-            </p>
+            <div className="flex items-center justify-between mt-auto">
+              <span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300">
+                {new Date(task.dueDate).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
+              </span>
+              <div className="flex -space-x-2">
+                {task.assignees && task.assignees.length > 0 && task.assignees.map(a => (
+                  <div key={a.id} className="h-6 w-6 rounded-full ring-2 ring-white dark:ring-slate-800 bg-gradient-to-br from-indigo-400 to-violet-500 flex items-center justify-center text-[10px] text-white font-medium" title={a.name}>
+                    {a.name.charAt(0).toUpperCase()}
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
           {isAdmin && (
             <button
-              className="deleteTaskButton cursor-pointer h-4 w-4 rounded-full my-5 mr-5"
+              className="absolute top-4 right-4 p-1.5 text-slate-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-900/20 rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-200"
               onClick={(event) => {
                 event.preventDefault();
                 deleteTask(taskDispatch, projectID ?? "", task);
               }}
+              title="Delete Task"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                className="w-4 h-4 fill-red-200 hover:fill-red-400"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m6 4.125l2.25 2.25m0 0l2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"
-                />
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
               </svg>
             </button>
           )}

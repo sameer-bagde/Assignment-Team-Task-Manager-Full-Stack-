@@ -43,12 +43,12 @@ const Dashboard: React.FC = () => {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-slate-800 dark:text-slate-100">
+        <h1 className="text-3xl font-bold text-slate-900 dark:text-white tracking-tight">
           {greeting()},{" "}
-          <span className="bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-indigo-500 to-violet-500 bg-clip-text text-transparent">
             {user?.name ?? "there"}
           </span>{" "}
-          👋
+          <span className="inline-block animate-bounce">👋</span>
         </h1>
         <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
           Here's a snapshot of your team's progress today.
@@ -113,15 +113,17 @@ const Dashboard: React.FC = () => {
 
           {/* My Assigned Tasks (Members only) */}
           {!isAdmin && state.stats.myTasks && state.stats.myTasks.length > 0 && (
-            <div className="mt-8 rounded-2xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-sm p-6">
-              <h2 className="text-sm font-semibold text-slate-700 dark:text-slate-200 mb-4">📋 My Assigned Tasks</h2>
+            <div className="mt-8 rounded-[2rem] bg-white dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800/60 shadow-sm p-6 sm:p-8 transition-colors">
+              <h2 className="text-base font-semibold text-slate-800 dark:text-slate-100 mb-5 flex items-center gap-2">
+                <span className="text-xl">📋</span> My Assigned Tasks
+              </h2>
               <div className="space-y-3">
                 {state.stats.myTasks.map((task) => {
                   const stateBadge = {
-                    pending: 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400',
-                    in_progress: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400',
-                    done: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400',
-                  }[task.state] ?? 'bg-slate-100 text-slate-600';
+                    pending: 'bg-amber-50 text-amber-600 dark:bg-amber-500/10 dark:text-amber-400',
+                    in_progress: 'bg-violet-50 text-violet-600 dark:bg-violet-500/10 dark:text-violet-400',
+                    done: 'bg-emerald-50 text-emerald-600 dark:bg-emerald-500/10 dark:text-emerald-400',
+                  }[task.state] ?? 'bg-slate-50 text-slate-600';
                   const stateLabel = { pending: 'Pending', in_progress: 'In Progress', done: 'Done' }[task.state];
                   return (
                     <Link
@@ -144,12 +146,12 @@ const Dashboard: React.FC = () => {
           )}
 
           {/* Progress bar */}
-          <div className="mt-8 rounded-2xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-sm p-6">
-            <div className="flex justify-between items-center mb-3">
-              <h2 className="text-sm font-semibold text-slate-700 dark:text-slate-200">
+          <div className="mt-8 rounded-[2rem] bg-white dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800/60 shadow-sm p-6 sm:p-8 transition-colors">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-base font-semibold text-slate-800 dark:text-slate-100">
                 Overall Completion
               </h2>
-              <span className="text-sm font-bold text-indigo-600">
+              <span className="text-base font-bold bg-gradient-to-r from-indigo-500 to-violet-500 bg-clip-text text-transparent">
                 {state.stats.total > 0
                   ? Math.round((state.stats.completed / state.stats.total) * 100)
                   : 0}%
