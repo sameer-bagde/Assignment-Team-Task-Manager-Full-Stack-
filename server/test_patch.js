@@ -1,0 +1,1 @@
+const http = require('http'); const req = http.request('http://localhost:3000/api/projects/1/tasks/1', { method: 'PATCH', headers: {'Content-Type':'application/json'} }, (res) => { let data = ''; res.on('data', chunk => data += chunk); res.on('end', () => console.log('Status:', res.statusCode, 'Body:', data)); }); req.write(JSON.stringify({ assignees: [1, 2] })); req.end();
