@@ -16,7 +16,9 @@ export default function Sidebar() {
     <div className="hidden md:flex md:w-64 md:flex-col border-r border-slate-200/60 dark:border-slate-800/60 bg-white dark:bg-slate-900 transition-colors">
       <div className="flex h-16 shrink-0 items-center px-6 border-b border-transparent">
         <Link to="/account/dashboard" className="flex items-center gap-3">
-          <span className="font-serif font-bold text-xl text-slate-800 dark:text-slate-100">Smarter Tasker</span>
+          <span className="font-sans font-extrabold text-xl tracking-tight bg-gradient-to-r from-indigo-500 to-violet-500 bg-clip-text text-transparent drop-shadow-sm">
+            Smarter Tasks Manager
+          </span>
         </Link>
       </div>
       <div className="flex flex-1 flex-col overflow-y-auto pt-5 pb-4 px-4 space-y-1">
