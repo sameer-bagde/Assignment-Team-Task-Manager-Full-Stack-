@@ -12,7 +12,7 @@ cacheDirectories = [
 ]
 
 [phases.build]
-cmds = ["npm run build"]
+cmds = ["npx vite build"]
 cacheDirectories = [
   "node_modules",
   "server/node_modules"

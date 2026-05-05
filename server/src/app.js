@@ -13,7 +13,9 @@ const dashboardRouter = require('./routes/dashboard');
 const app = express();
 
 // ── Middleware ────────────────────────────────────────────────────────────────
-app.use(cors({ origin: '*', credentials: true }));
+// NOTE: origin:'*' + credentials:true is rejected by browsers (CORS spec).
+// Use origin:true to reflect the actual request origin so credentials work.
+app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
