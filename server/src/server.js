@@ -13,8 +13,10 @@ const start = async () => {
     await sequelize.sync({ alter: true });
     console.log('✅  Database synced.');
 
-    app.listen(PORT, () => {
-      console.log(`🚀  Server running on http://localhost:${PORT}`);
+    const host = '0.0.0.0';
+    app.listen(PORT, host, () => {
+      console.log(`🚀  Server running on http://${host}:${PORT}`);
+      console.log(`✅  Healthcheck available at http://${host}:${PORT}/api/health`);
     });
   } catch (err) {
     console.error('❌  Failed to start server:', err);

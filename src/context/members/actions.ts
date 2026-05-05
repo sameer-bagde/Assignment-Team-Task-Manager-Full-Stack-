@@ -38,12 +38,9 @@ export const addMembers = async (dispatch: any, args: any) => {
       // Next, I'll pass the `args` here
       body: JSON.stringify(args),
     });
-    if (!response.ok) {
-      throw new Error("Failed to add member");
-    }
     const data = await response.json();
-    if (data.errors && data.errors.length > 0) {
-      return { ok: false, error: data.errors[0].message };
+    if (!response.ok) {
+      return { ok: false, error: data.error || data.errors?.[0]?.msg || "Failed to add member" };
     }
 
     dispatch({ type: "ADD_MEMBERS_SUCCESS", payload: data });

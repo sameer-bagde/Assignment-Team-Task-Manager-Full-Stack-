@@ -38,12 +38,13 @@ export const signupAction = async (
   name: string,
   email: string,
   password: string,
+  adminKey?: string,
 ): Promise<{ ok: boolean; error?: string }> => {
   try {
     const res = await fetch(`${API_ENDPOINT}/users`, {
       method:  'POST',
       headers: { 'Content-Type': 'application/json' },
-      body:    JSON.stringify({ name, email, password }),
+      body:    JSON.stringify({ name, email, password, adminKey }),
     });
 
     const data = await res.json();

@@ -27,6 +27,7 @@ const NewMember = () => {
   } = useForm<Inputs>();
   const closeModal = () => {
     setIsOpen(false);
+    setError(null);
   };
   const openModal = () => {
     setIsOpen(true);
@@ -83,23 +84,27 @@ const NewMember = () => {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white dark:bg-slate-800 p-6 text-left align-middle shadow-xl transition-all">
                   <Dialog.Title
                     as="h3"
-                    className="text-lg font-medium leading-6 text-gray-900"
+                    className="text-lg font-medium leading-6 text-gray-900 dark:text-white"
                   >
                     Add new User
                   </Dialog.Title>
                   <div className="mt-2">
                     <form onSubmit={handleSubmit(onSubmit)}>
-                      {error && <span>{error}</span>}
+                      {error && (
+                        <div className="mb-4 rounded-lg bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 px-4 py-3 text-sm text-red-700 dark:text-red-400">
+                          {error}
+                        </div>
+                      )}
                       <input
                         type="text"
                         id="name"
                         placeholder="Enter usere name..."
                         autoFocus
                         {...register("name", { required: true })}
-                        className={`w-full border rounded-md py-2 px-3 my-4 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue ${
+                        className={`w-full border dark:border-slate-600 rounded-md py-2 px-3 my-4 bg-white dark:bg-slate-700 text-gray-700 dark:text-white leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue ${
                           errors.name ? "border-red-500" : ""
                         }`}
                       />
@@ -109,8 +114,8 @@ const NewMember = () => {
                         placeholder="Enter email ID..."
                         autoFocus
                         {...register("email", { required: true })}
-                        className={`w-full border rounded-md py-2 px-3 my-4 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue ${
-                          errors.name ? "border-red-500" : ""
+                        className={`w-full border dark:border-slate-600 rounded-md py-2 px-3 my-4 bg-white dark:bg-slate-700 text-gray-700 dark:text-white leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue ${
+                          errors.email ? "border-red-500" : ""
                         }`}
                       />
                       <input
@@ -119,15 +124,15 @@ const NewMember = () => {
                         placeholder="Enter Password..."
                         autoFocus
                         {...register("password", { required: true })}
-                        className={`w-full border rounded-md py-2 px-3 my-4 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue ${
-                          errors.name ? "border-red-500" : ""
+                        className={`w-full border dark:border-slate-600 rounded-md py-2 px-3 my-4 bg-white dark:bg-slate-700 text-gray-700 dark:text-white leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue ${
+                          errors.password ? "border-red-500" : ""
                         }`}
                       />
-                      {errors.name && <span>Name is required</span>}
+                      {errors.name && <span className="text-red-500 text-xs">Name is required</span>}
                       <br />
-                      {errors.email && <span>Email is required</span>}
+                      {errors.email && <span className="text-red-500 text-xs">Email is required</span>}
                       <br />
-                      {errors.password && <span>Password is required</span>}
+                      {errors.password && <span className="text-red-500 text-xs">Password is required</span>}
 
                       <br />
                       <button
@@ -140,7 +145,7 @@ const NewMember = () => {
                       <button
                         type="button"
                         onClick={closeModal}
-                        className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                        className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 dark:bg-slate-700 px-4 py-2 text-sm font-medium text-blue-900 dark:text-white hover:bg-blue-200 dark:hover:bg-slate-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                       >
                         Cancel
                       </button>

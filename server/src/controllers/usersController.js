@@ -1,10 +1,21 @@
 const { User } = require('../models');
+const bcrypt = require('bcryptjs');
 
 // GET /api/users — list all users (for member picker dropdown)
 exports.listUsers = async (req, res) => {
   try {
+    let filter = {};
+    if (req.user.role === 'ADMIN') {
+      filter = { creatorId: req.user.id };
+    } else {
+      // MEMBER sees users created by their own creator (teammates)
+      const currentUser = await User.findByPk(req.user.id);
+      filter = { creatorId: currentUser.creatorId };
+    }
+
     const users = await User.findAll({
-      attributes: ['id', 'name', 'email', 'role'],
+      attributes: ['id', 'name', 'email', 'role', 'creatorId'],
+      where: filter,
       order: [['name', 'ASC']],
     });
     return res.json(users);

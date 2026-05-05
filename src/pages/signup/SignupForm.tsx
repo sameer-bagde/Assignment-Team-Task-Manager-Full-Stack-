@@ -7,6 +7,7 @@ const SignupForm: React.FC = () => {
   const [name, setName]         = useState("");
   const [email, setEmail]       = useState("");
   const [password, setPassword] = useState("");
+  const [adminKey, setAdminKey] = useState("");
   const [error, setError]       = useState<string | null>(null);
   const [loading, setLoading]   = useState(false);
   const navigate = useNavigate();
@@ -16,7 +17,7 @@ const SignupForm: React.FC = () => {
     e.preventDefault();
     setError(null);
     setLoading(true);
-    const result = await signupAction(dispatch, name, email, password);
+    const result = await signupAction(dispatch, name, email, password, adminKey);
     setLoading(false);
     if (result.ok) {
       navigate("/account/dashboard");
@@ -78,6 +79,21 @@ const SignupForm: React.FC = () => {
           placeholder="••••••••"
         />
         <p className="mt-1 text-xs text-slate-400 dark:text-slate-500">Minimum 6 characters</p>
+      </div>
+      
+      <div>
+        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
+          Admin Secret Key (Required for Admin registration)
+        </label>
+        <input
+          id="adminKey"
+          type="text"
+          value={adminKey}
+          onChange={(e) => setAdminKey(e.target.value)}
+          required
+          className="w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 px-4 py-2.5 text-sm text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-400 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 dark:focus:ring-indigo-800 outline-none transition"
+          placeholder="Enter secret key"
+        />
       </div>
 
       <button

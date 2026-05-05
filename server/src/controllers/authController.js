@@ -15,26 +15,76 @@ exports.signup = async (req, res) => {
   if (!errors.isEmpty()) return res.status(422).json({ errors: errors.array() });
 
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, role: requestedRole } = req.body;
 
     const existing = await User.findOne({ where: { email } });
     if (existing) return res.status(409).json({ error: 'Email already registered.' });
 
-    // First user in the system becomes ADMIN
+    let finalRole = 'MEMBER';
     const userCount = await User.count();
-    const role = userCount === 0 ? 'ADMIN' : 'MEMBER';
+
+    // ── Check Authorization ──────────────────────────────────────────────────
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+
+    if (token) {
+      // Admin is adding a user
+      try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        if (decoded.role !== 'ADMIN') {
+          return res.status(403).json({ error: 'Only administrators can add members.' });
+        }
+        
+        // Prevent admin from adding themselves
+        if (decoded.email === email) {
+          return res.status(400).json({ error: 'Admin cannot be a member of their own team (you are already the Admin).' });
+        }
+
+        // Admin can specify the role
+        finalRole = requestedRole === 'ADMIN' ? 'ADMIN' : 'MEMBER';
+      } catch (err) {
+        return res.status(401).json({ error: 'Invalid token.' });
+      }
+    } else {
+      // Public signup — Only allowed for ADMINs with a valid secret key
+      const { adminKey } = req.body;
+      const ADMIN_SECRET = process.env.ADMIN_SECRET || 'supersecret'; // Fallback for safety
+
+      if (adminKey === ADMIN_SECRET) {
+        finalRole = 'ADMIN';
+      } else {
+        return res.status(403).json({ 
+          error: 'Public registration is closed. To register as an Admin, a valid secret key is required.' 
+        });
+      }
+    }
 
     const hashed = await bcrypt.hash(password, 12);
-    const user   = await User.create({ name, email, password: hashed, role });
+    const user   = await User.create({ 
+      name, 
+      email, 
+      password: hashed, 
+      role: finalRole,
+      creatorId: token ? jwt.verify(token, process.env.JWT_SECRET).id : null 
+    });
 
-    const token = jwt.sign(
+    // If Admin added a user, we don't need to return a new token for the new user
+    if (token) {
+      return res.status(201).json({
+        message: 'User created successfully.',
+        user: { id: user.id, name: user.name, email: user.email, role: user.role },
+      });
+    }
+
+    // Otherwise (First Admin Signup), return token for login
+    const newToken = jwt.sign(
       { id: user.id, email: user.email, name: user.name, role: user.role },
       process.env.JWT_SECRET,
       { expiresIn: '7d' }
     );
 
     return res.status(201).json({
-      token,
+      token: newToken,
       user: { id: user.id, name: user.name, email: user.email, role: user.role },
     });
   } catch (err) {

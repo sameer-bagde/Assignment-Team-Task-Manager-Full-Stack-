@@ -7,9 +7,24 @@ exports.getDashboard = async (req, res) => {
   try {
     const { projectId, userId } = req.query;
 
-    // Build base where clause
     const where = {};
     if (projectId) where.projectId = projectId;
+
+    // If ADMIN, further isolate tasks to only projects they created
+    if (req.user.role === 'ADMIN') {
+      const adminProjects = await Project.findAll({ where: { creatorId: req.user.id }, attributes: ['id'] });
+      const adminProjectIds = adminProjects.map(p => p.id);
+      
+      if (projectId) {
+        // If a specific project was requested, ensure the admin owns it
+        if (!adminProjectIds.includes(Number(projectId))) {
+          where.projectId = -1; // Force zero results
+        }
+      } else {
+        // Otherwise, limit to all projects owned by this admin
+        where.projectId = { [Op.in]: adminProjectIds };
+      }
+    }
 
     let targetUserId = userId;
     // If MEMBER, limit to their assigned tasks
@@ -50,6 +65,7 @@ exports.getDashboard = async (req, res) => {
     let projects = [];
     if (req.user.role === 'ADMIN') {
       projects = await Project.findAll({
+        where: { creatorId: req.user.id },
         attributes: ['id', 'name'],
         order: [['name', 'ASC']],
       });

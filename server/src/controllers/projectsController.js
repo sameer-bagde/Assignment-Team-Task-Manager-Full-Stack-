@@ -9,10 +9,11 @@ exports.listProjects = async (req, res) => {
   try {
     let projects;
     if (req.user.role === 'ADMIN') {
-      // ADMIN sees all projects
+      // ADMIN sees only projects they created
       projects = await Project.findAll({
         attributes: projectFields,
         include: [{ model: User, as: 'members', attributes: ['id', 'name', 'email', 'role'], through: { attributes: [] } }],
+        where: { creatorId: req.user.id },
         order: [['createdAt', 'DESC']],
       });
     } else {
@@ -42,7 +43,7 @@ exports.createProject = async (req, res) => {
 
   try {
     const { name, description = '' } = req.body;
-    const project = await Project.create({ name, description });
+    const project = await Project.create({ name, description, creatorId: req.user.id });
 
     // Auto-add the creating admin as a project member
     await ProjectMember.create({ projectId: project.id, userId: req.user.id });
