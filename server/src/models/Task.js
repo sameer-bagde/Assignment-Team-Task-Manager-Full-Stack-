@@ -9,7 +9,7 @@ const Task = sequelize.define(
     description: { type: DataTypes.TEXT, defaultValue: '' },
     state:       { type: DataTypes.ENUM('pending', 'in_progress', 'done'), defaultValue: 'pending', allowNull: false },
     dueDate:     { type: DataTypes.DATEONLY, allowNull: true },
-    projectId:   { type: DataTypes.INTEGER, allowNull: false, references: { model: 'projects', key: 'id' } },
+    projectId:   { type: DataTypes.INTEGER, allowNull: false },
   },
   { tableName: 'tasks', timestamps: true }
 );

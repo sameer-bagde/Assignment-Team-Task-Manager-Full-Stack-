@@ -2,6 +2,7 @@ require('dotenv').config();
 const express  = require('express');
 const cors     = require('cors');
 const path     = require('path');
+const fs       = require('fs');
 
 const usersRouter     = require('./routes/users');
 const projectsRouter  = require('./routes/projects');
@@ -17,8 +18,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // ── Static Files (Frontend) ──────────────────────────────────────────────────
-// Serve static files from the 'dist' directory (Vite build output)
-app.use(express.static(path.join(__dirname, '../../dist')));
+const distPath = path.resolve(__dirname, '../../dist');
+app.use(express.static(distPath));
 
 // ── Routes ────────────────────────────────────────────────────────────────────
 app.use('/api/users',      usersRouter);
@@ -34,10 +35,15 @@ app.use('/api/dashboard',  dashboardRouter);
 app.get('/api/health', (_req, res) => res.json({ status: 'ok' }));
 
 // ── Client-side routing support ───────────────────────────────────────────────
-// For any request that doesn't match an API route or static file, serve index.html
 app.get('*', (req, res) => {
   if (!req.path.startsWith('/api')) {
-    res.sendFile(path.join(__dirname, '../../dist/index.html'));
+    const indexPath = path.join(distPath, 'index.html');
+    if (fs.existsSync(indexPath)) {
+      res.sendFile(indexPath);
+    } else {
+      console.error(`❌  Frontend index.html not found at: ${indexPath}`);
+      res.status(404).send('Frontend not built. Please check your build logs on Railway.');
+    }
   } else {
     res.status(404).json({ error: 'API route not found.' });
   }
