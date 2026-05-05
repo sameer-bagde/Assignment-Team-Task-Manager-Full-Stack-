@@ -9,7 +9,7 @@ import { DashboardProvider } from "./context/dashboard/context";
 
 const App = () => {
   return (
-    <div className="min-h-screen w-full mx-auto py-2 bg-slate-50 dark:bg-slate-900 transition-colors">
+    <div className="w-full min-h-screen">
       <AuthProvider>
         <DashboardProvider>
           <ProjectsProvider>
