@@ -20,3 +20,4 @@ cacheDirectories = [
 
 [start]
 cmd = "npm start"
+
