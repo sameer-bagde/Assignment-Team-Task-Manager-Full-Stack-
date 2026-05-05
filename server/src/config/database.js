@@ -2,7 +2,7 @@ const { Sequelize } = require('sequelize');
 require('dotenv').config();
 
 const sequelize = new Sequelize(
-  process.env.MYSQL_URL || process.env.DATABASE_URL || 'mysql://root:password@localhost:3306/task_manager',
+  process.env.DATABASE_URL,
   {
     dialect: 'mysql',
     logging: false,
