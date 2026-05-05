@@ -4,7 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useTasksDispatch, useTasksState } from "../../context/task/context";
 import { updateTask } from "../../context/task/actions";
-import { Dialog, Transition, Listbox } from "@headlessui/react";
+import { Transition, Listbox } from "@headlessui/react";
 import CheckIcon from "@heroicons/react/24/outline/CheckIcon";
 import { useAuth } from "../../context/auth/context";
 import { useProjectsState } from "../../context/projects/context";
