@@ -33,9 +33,8 @@ const start = async () => {
       console.log('✅  Database synced.');
     }
 
-    const host = '0.0.0.0';
-    app.listen(PORT, host, () => {
-      console.log(`🚀  Server running on http://${host}:${PORT}`);
+    app.listen(PORT, () => {
+      console.log(`🚀  Server running on http://localhost:${PORT}`);
     });
   } catch (err) {
     console.error('❌  Failed to start server:', err);
