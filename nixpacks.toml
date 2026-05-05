@@ -2,17 +2,13 @@
 nixPkgs = ["nodejs_20"]
 
 [phases.install]
-cmds = [
-  "npm install",
-  "cd server && npm install"
-]
 cacheDirectories = [
   "node_modules",
   "server/node_modules"
 ]
 
 [phases.build]
-cmds = ["npx vite build"]
+cmds = ["npm run build"]
 cacheDirectories = [
   "node_modules",
   "server/node_modules"

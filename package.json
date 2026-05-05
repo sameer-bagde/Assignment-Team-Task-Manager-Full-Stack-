@@ -7,7 +7,8 @@
     "dev:client": "vite",
     "dev:server": "cd server && npm run dev",
     "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\"",
-    "build": "npm install && vite build && cd server && npm install",
+    "postinstall": "cd server && npm install",
+    "build": "vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "start": "cd server && npm start"
