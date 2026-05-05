@@ -1,6 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 require('dotenv').config();
+
 const app = require('./app');
 const { sequelize } = require('./models');
 
