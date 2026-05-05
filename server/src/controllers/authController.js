@@ -46,16 +46,20 @@ exports.signup = async (req, res) => {
         return res.status(401).json({ error: 'Invalid token.' });
       }
     } else {
-      // Public signup — Only allowed for ADMINs with a valid secret key
+      // Public signup — Handle MEMBER and ADMIN signup
       const { adminKey } = req.body;
       const ADMIN_SECRET = process.env.ADMIN_SECRET || 'supersecret'; // Fallback for safety
 
-      if (adminKey === ADMIN_SECRET) {
-        finalRole = 'ADMIN';
+      if (adminKey) {
+        if (adminKey === ADMIN_SECRET) {
+          finalRole = 'ADMIN';
+        } else {
+          return res.status(403).json({ 
+            error: 'Invalid admin secret key.' 
+          });
+        }
       } else {
-        return res.status(403).json({ 
-          error: 'Public registration is closed. To register as an Admin, a valid secret key is required.' 
-        });
+        finalRole = 'MEMBER';
       }
     }
 

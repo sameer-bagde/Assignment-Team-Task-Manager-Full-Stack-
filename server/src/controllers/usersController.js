@@ -4,14 +4,13 @@ const bcrypt = require('bcryptjs');
 // GET /api/users — list all users (for member picker dropdown)
 exports.listUsers = async (req, res) => {
   try {
-    let filter = {};
-    if (req.user.role === 'ADMIN') {
-      filter = { creatorId: req.user.id };
-    } else {
-      // MEMBER sees users created by their own creator (teammates)
-      const currentUser = await User.findByPk(req.user.id);
-      filter = { creatorId: currentUser.creatorId };
+    // MEMBERs cannot see other users
+    if (req.user.role !== 'ADMIN') {
+      return res.json([]);
     }
+
+    // ADMINs can see all global MEMBERs
+    const filter = { role: 'MEMBER' };
 
     const users = await User.findAll({
       attributes: ['id', 'name', 'email', 'role', 'creatorId'],
