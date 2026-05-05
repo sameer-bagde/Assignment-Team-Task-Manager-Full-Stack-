@@ -6,8 +6,14 @@ const { sequelize } = require('./models');
 
 const PORT = process.env.PORT || 5000;
 
-// On Railway, bind to 0.0.0.0. Locally, use localhost.
-const isProduction = process.env.NODE_ENV === 'production' || !!process.env.RAILWAY_ENVIRONMENT;
+// Detect Railway/production environment — triple-checked so a NODE_ENV typo
+// (e.g. "producation") never causes the server to bind to localhost on Railway.
+const isProduction =
+  process.env.NODE_ENV === 'production' ||
+  !!process.env.RAILWAY_ENVIRONMENT ||
+  !!process.env.RAILWAY_SERVICE_NAME ||
+  !!process.env.RAILWAY_PROJECT_ID;
+
 const host = isProduction ? '0.0.0.0' : 'localhost';
 
 // Diagnostics
