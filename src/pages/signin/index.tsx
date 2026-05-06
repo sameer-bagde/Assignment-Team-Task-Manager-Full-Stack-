@@ -9,7 +9,15 @@ const Signin: React.FC = () => (
     
     <div className="w-full max-w-[420px] relative z-10">
       <div className="text-center mb-8 animate-fade-in-up">
-        <h2 className="font-serif font-bold text-3xl text-indigo-600 dark:text-indigo-400 mb-6 drop-shadow-sm">Smarter Tasker</h2>
+        <div className="flex items-center justify-center gap-3 mb-8">
+          <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center text-white font-bold text-xs tracking-widest shadow-lg shadow-indigo-500/20">
+            TTM
+          </div>
+          <div className="flex flex-col text-left">
+            <h1 className="text-2xl font-bold leading-tight text-slate-800 dark:text-white tracking-tight">Team Task</h1>
+            <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-indigo-600 dark:text-indigo-400 -mt-0.5">Manager</p>
+          </div>
+        </div>
         <h1 className="text-3xl font-bold text-slate-900 dark:text-white tracking-tight">Welcome back</h1>
         <p className="text-slate-500 dark:text-slate-400 mt-2">Sign in to your account to continue</p>
       </div>
