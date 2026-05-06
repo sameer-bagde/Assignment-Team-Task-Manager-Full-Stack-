@@ -14,9 +14,19 @@ export default function Sidebar() {
 
   return (
     <div className="hidden md:flex md:w-64 md:flex-col border-r border-slate-200/60 dark:border-slate-800/60 bg-white dark:bg-slate-900 transition-colors">
-      <div className="flex h-16 shrink-0 items-center px-6 border-b border-transparent">
-        <Link to="/account/dashboard" className="flex items-center gap-3">
-          <span className="font-serif font-bold text-xl text-slate-800 dark:text-slate-100">Smarter Tasker</span>
+      <div className="flex h-20 shrink-0 items-center px-6">
+        <Link to="/account/dashboard" className="flex items-center gap-3 group transition-all">
+          <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center shadow-lg shadow-indigo-500/20 dark:shadow-none group-hover:scale-105 transition-transform duration-200">
+            <span className="text-white font-bold text-[10px] tracking-widest">TTM</span>
+          </div>
+          <div className="flex flex-col">
+            <h1 className="text-base font-bold leading-tight text-slate-800 dark:text-white tracking-tight">
+              Team Task
+            </h1>
+            <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-indigo-600 dark:text-indigo-400 -mt-0.5">
+              Manager
+            </p>
+          </div>
         </Link>
       </div>
       <div className="flex flex-1 flex-col overflow-y-auto pt-5 pb-4 px-4 space-y-1">
