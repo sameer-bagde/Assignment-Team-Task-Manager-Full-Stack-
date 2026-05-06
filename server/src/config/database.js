@@ -8,7 +8,28 @@ const sequelize = new Sequelize(
   {
     dialect: 'mysql',
     logging: false,
-    dialectOptions: {},
+    pool: {
+      max: 5,
+      min: 0,
+      acquire: 60000,
+      idle: 10000
+    },
+    dialectOptions: {
+      connectTimeout: 60000
+    },
+    retry: {
+      match: [
+        /SequelizeConnectionError/,
+        /SequelizeConnectionRefusedError/,
+        /SequelizeHostNotFoundError/,
+        /SequelizeHostNotReachableError/,
+        /SequelizeInvalidConnectionError/,
+        /SequelizeConnectionTimedOutError/,
+        /TimeoutError/,
+        /PROTOCOL_CONNECTION_LOST/
+      ],
+      max: 3
+    }
   }
 );
 

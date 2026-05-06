@@ -1,5 +1,6 @@
 const { User } = require('../models');
 const { Op } = require('sequelize');
+<<<<<<< HEAD
 
 // GET /api/users — list all users
 exports.listUsers = async (req, res) => {
@@ -19,6 +20,39 @@ exports.listUsers = async (req, res) => {
       filter = { role: 'ADMIN' };
     }
 
+=======
+const bcrypt = require('bcryptjs');
+
+// GET /api/users — list all users (for member sections)
+exports.listUsers = async (req, res) => {
+  try {
+    const currentUser = await User.findByPk(req.user.id);
+    if (!currentUser) return res.status(404).json({ error: 'User not found.' });
+
+    let filter;
+    
+    if (currentUser.role === 'ADMIN') {
+      // ADMINs see themselves, anyone they created, and global members (MEMBER role only)
+      filter = {
+        [Op.or]: [
+          { id: currentUser.id },
+          { creatorId: currentUser.id },
+          { role: 'MEMBER', creatorId: null }
+        ]
+      };
+    } else {
+      // MEMBERs see themselves, their specific admin, their teammates, and global members
+      filter = {
+        [Op.or]: [
+          { id: currentUser.id },
+          { id: currentUser.creatorId }, // Their admin
+          { creatorId: currentUser.creatorId }, // Their teammates
+          { role: 'MEMBER', creatorId: null } // Global members
+        ]
+      };
+    }
+
+>>>>>>> 1978db6c7bc8e3ec64dc6038bf813c48f00bae27
     const users = await User.findAll({
       attributes: ['id', 'name', 'email', 'role', 'creatorId'],
       where: filter,
