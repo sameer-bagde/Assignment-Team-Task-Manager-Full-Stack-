@@ -1,27 +1,5 @@
 const { User } = require('../models');
 const { Op } = require('sequelize');
-<<<<<<< HEAD
-
-// GET /api/users — list all users
-exports.listUsers = async (req, res) => {
-  try {
-    let filter = {};
-    if (req.user.role === 'ADMIN') {
-      // Admins see themselves, members they created, and global signup members
-      filter = {
-        [Op.or]: [
-          { id: req.user.id },
-          { creatorId: req.user.id },
-          { [Op.and]: [{ creatorId: null }, { role: 'MEMBER' }] }
-        ]
-      };
-    } else {
-      // MEMBERs can only see ADMINs
-      filter = { role: 'ADMIN' };
-    }
-
-=======
-const bcrypt = require('bcryptjs');
 
 // GET /api/users — list all users (for member sections)
 exports.listUsers = async (req, res) => {
@@ -52,7 +30,6 @@ exports.listUsers = async (req, res) => {
       };
     }
 
->>>>>>> 1978db6c7bc8e3ec64dc6038bf813c48f00bae27
     const users = await User.findAll({
       attributes: ['id', 'name', 'email', 'role', 'creatorId'],
       where: filter,
