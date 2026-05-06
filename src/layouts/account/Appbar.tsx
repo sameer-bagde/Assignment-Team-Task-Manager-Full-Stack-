@@ -42,10 +42,10 @@ const Appbar = () => {
     <>
       <Disclosure
         as="nav"
-        className="border-b border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-sm"
+        className="sticky top-0 z-50 border-b border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md shadow-sm"
       >
         {({}) => (
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="w-full px-4">
             <div className="flex h-16 items-center justify-between">
               {/* Logo + Nav */}
               <div className="flex items-center gap-8">

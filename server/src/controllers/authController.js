@@ -20,8 +20,8 @@ exports.signup = async (req, res) => {
     const existing = await User.findOne({ where: { email } });
     if (existing) return res.status(409).json({ error: 'Email already registered.' });
 
-    let finalRole = 'MEMBER';
     const userCount = await User.count();
+    let finalRole = (userCount === 0) ? 'ADMIN' : 'MEMBER';
 
     // ── Check Authorization ──────────────────────────────────────────────────
     const authHeader = req.headers['authorization'];
@@ -48,7 +48,7 @@ exports.signup = async (req, res) => {
     } else {
       // Public signup — Handle MEMBER and ADMIN signup
       const { adminKey } = req.body;
-      const ADMIN_SECRET = process.env.ADMIN_SECRET || 'supersecret'; // Fallback for safety
+      const ADMIN_SECRET = process.env.ADMIN_SECRET || 'supersecret';
 
       if (adminKey) {
         if (adminKey === ADMIN_SECRET) {
@@ -58,9 +58,9 @@ exports.signup = async (req, res) => {
             error: 'Invalid admin secret key.' 
           });
         }
-      } else {
-        finalRole = 'MEMBER';
       }
+      // If no adminKey and userCount is 0, finalRole is already ADMIN.
+      // If no adminKey and userCount > 0, finalRole is MEMBER.
     }
 
     const hashed = await bcrypt.hash(password, 12);

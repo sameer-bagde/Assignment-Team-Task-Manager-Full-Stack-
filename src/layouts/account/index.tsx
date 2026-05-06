@@ -3,14 +3,14 @@ import Appbar from "./Appbar";
 
 const AccountLayout = () => {
   return (
-    <>
+    <div className="flex flex-col min-h-screen">
       <Appbar />
-      <main>
-        <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+      <main className="flex-grow flex flex-col">
+        <div className="flex-grow w-full">
           <Outlet />
         </div>
       </main>
-    </>
+    </div>
   );
 };
 
