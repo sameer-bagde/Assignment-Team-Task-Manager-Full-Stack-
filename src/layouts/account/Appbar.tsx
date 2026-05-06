@@ -6,7 +6,6 @@ import {
   FolderIcon,
   UsersIcon,
 } from "@heroicons/react/24/outline";
-import Logo from "../../assets/images/logo.png";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ThemeContext } from "../../context/theme";
 import { useAuth } from "../../context/auth/context";
@@ -20,7 +19,7 @@ const Appbar = () => {
   const navigate = useNavigate();
   const { theme, setTheme } = useContext(ThemeContext);
   const { user, isAdmin, dispatch } = useAuth();
-  
+
   const enabled = theme === "dark";
 
   const toggleTheme = () => {
@@ -34,8 +33,8 @@ const Appbar = () => {
 
   const navigation = [
     { name: "Dashboard", href: "/account/dashboard", icon: ChartBarIcon },
-    { name: "Projects",  href: "/account/projects",  icon: FolderIcon },
-    { name: "Members",   href: "/account/members",   icon: UsersIcon },
+    { name: "Projects", href: "/account/projects", icon: FolderIcon },
+    { name: "Members", href: "/account/members", icon: UsersIcon },
   ];
 
   return (
@@ -44,12 +43,27 @@ const Appbar = () => {
         as="nav"
         className="sticky top-0 z-50 border-b border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md shadow-sm"
       >
-        {({}) => (
-          <div className="w-full px-4">
+        {({ }) => (
+          <div className="w-full max-w-[1600px] mx-auto px-6">
             <div className="flex h-16 items-center justify-between">
               {/* Logo + Nav */}
               <div className="flex items-center gap-8">
-                <img className="h-8" src={Logo} alt="Team Task Manager" />
+                <Link to="/account/dashboard" className="flex items-center gap-3 group transition-all">
+                  {/* Modern Icon Block */}
+                  <div className="h-10 w-10 rounded-xl bg-slate-900 dark:bg-indigo-600 flex items-center justify-center shadow-md group-hover:shadow-xl group-hover:shadow-indigo-500/20 group-active:scale-95 transition-all duration-300">
+                    <span className="text-white font-bold text-[10px] tracking-widest">TTM</span>
+                  </div>
+                  
+                  {/* Brand Typography */}
+                  <div className="flex flex-col justify-center">
+                    <h1 className="text-lg font-bold leading-tight text-slate-800 dark:text-white tracking-tight">
+                      Team Task
+                    </h1>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-indigo-600 dark:text-indigo-400 -mt-0.5">
+                      Manager
+                    </p>
+                  </div>
+                </Link>
 
                 <div className="hidden md:flex items-baseline space-x-1">
                   {navigation.map((item) => {
@@ -94,15 +108,13 @@ const Appbar = () => {
                 <Switch
                   checked={enabled}
                   onChange={toggleTheme}
-                  className={`${
-                    enabled ? "bg-indigo-600" : "bg-slate-200"
-                  } relative inline-flex h-6 w-11 items-center rounded-full transition-colors`}
+                  className={`${enabled ? "bg-indigo-600" : "bg-slate-200"
+                    } relative inline-flex h-6 w-11 items-center rounded-full transition-colors`}
                 >
                   <span className="sr-only">Toggle dark mode</span>
                   <span
-                    className={`${
-                      enabled ? "translate-x-6" : "translate-x-1"
-                    } inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform`}
+                    className={`${enabled ? "translate-x-6" : "translate-x-1"
+                      } inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform`}
                   />
                 </Switch>
 

@@ -40,7 +40,7 @@ const Dashboard: React.FC = () => {
   };
 
   return (
-    <div className="w-full p-4">
+    <div className="w-full">
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-slate-800 dark:text-slate-100">
